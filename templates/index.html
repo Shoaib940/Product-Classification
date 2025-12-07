@@ -45,7 +45,10 @@
         <!-- Form sends data to Flask -->
         <form method="POST">
             <label for="product_text">Enter Product Description</label>
-            <textarea id="product_text" name="product_text" placeholder="Example: Latest smartphone with 5G connectivity..." required></textarea>
+
+            <!-- 🔥 FIXED TEXTAREA – now remembers user input -->
+            <textarea id="product_text" name="product_text" required>{{ text }}</textarea>
+
             <button type="submit">🔍 Predict Category</button>
         </form>
 
