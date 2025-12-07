@@ -5,7 +5,7 @@ import string
 import os
 
 # Initialize Flask app
-app = Flask(_name_)
+app = Flask(__name__)
 
 # -----------------------
 # Load trained objects
@@ -20,7 +20,7 @@ with open("label_encoder.pkl", "rb") as f:
     le = pickle.load(f)
 
 # -----------------------
-# Preprocessing function (same as training)
+# Preprocessing function
 # -----------------------
 def preprocess_text(text):
     if not isinstance(text, str):
@@ -60,8 +60,8 @@ def index():
     return render_template("index.html", prediction=prediction)
 
 # -----------------------
-# Run app (Railway compatible)
+# Run app
 # -----------------------
-if _name_ == "_main_":
+if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
