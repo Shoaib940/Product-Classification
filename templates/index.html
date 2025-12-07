@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Product Category Predictor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 50px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .categories-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .category-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea::placeholder {
+            color: #999;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            margin-top: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .result-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .result-category {
+            font-size: 2em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .subtitle {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 AI Category Predictor</h1>
+        <p class="subtitle">Intelligent product classification powered by machine learning</p>
+        
+        <div class="categories-preview">
+            <span class="category-badge">📱 Electronics</span>
+            <span class="category-badge">🏠 Household </span>
+            <span class="category-badge">📚 Books</span>
+            <span class="category-badge">👔 Clothing & Accessories</span>
+        </div>
+
+        <form id="predictionForm">
+            <label for="product_text">Enter Product Description</label>
+            <textarea 
+                id="product_text" 
+                name="product_text" 
+                placeholder="Example: Latest smartphone with 5G connectivity, 128GB storage, and advanced camera system..."
+                required
+            ></textarea>
+            <button type="submit">🔍 Predict Category</button>
+        </form>
+
+        <div id="resultContainer" style="display: none;">
+            <div class="result">
+                <div class="icon" id="categoryIcon">✨</div>
+                <div class="result-label">Predicted Category</div>
+                <div class="result-category" id="predictedCategory">—</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const categories = {
+            'Electronics': '💻',
+            'Household': '🏠',
+            'Books': '📚',
+            'Clothing and Accessories': '👔'
+        };
+
+        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const text = document.getElementById('product_text').value.toLowerCase();
+            let prediction = 'IT';
+            
+            // Simple keyword-based prediction
+            if (text.includes('book') || text.includes('novel') || text.includes('author') || text.includes('read')) {
+                prediction = 'Books';
+            } else if (text.includes('shirt') || text.includes('dress') || text.includes('shoes') || text.includes('fashion') || text.includes('clothes') || text.includes('wear')) {
+                prediction = 'Clothing and Accessories';
+            } else if (text.includes('washing') || text.includes('refrigerator') || text.includes('microwave') || text.includes('vacuum') || text.includes('kitchen') || text.includes('home appliance')) {
+                prediction = 'Household Electronics';
+            } else if (text.includes('laptop') || text.includes('computer') || text.includes('phone') || text.includes('software') || text.includes('tech') || text.includes('device')) {
+                prediction = 'IT';
+            }
+            
+            // Display result
+            document.getElementById('categoryIcon').textContent = categories[prediction] || '✨';
+            document.getElementById('predictedCategory').textContent = prediction;
+            document.getElementById('resultContainer').style.display = 'block';
+            
+            // Smooth scroll to result
+            document.getElementById('resultContainer').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+    </script>
+</body>
+</html>
