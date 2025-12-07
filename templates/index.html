@@ -46,8 +46,8 @@
         <form method="POST">
             <label for="product_text">Enter Product Description</label>
 
-            <!-- 🔥 FIXED TEXTAREA – now remembers user input -->
-            <textarea id="product_text" name="product_text" required>{{ text }}</textarea>
+            <!-- 🔥 FIXED: Text stays after prediction -->
+            <textarea id="product_text" name="product_text" required>{{ request.form.get('product_text', '') }}</textarea>
 
             <button type="submit">🔍 Predict Category</button>
         </form>
