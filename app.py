@@ -2,9 +2,10 @@ from flask import Flask, render_template, request
 import pickle
 import re
 import string
+import os
 
 # Initialize Flask app
-app = Flask(__name__)
+app = Flask(_name_)
 
 # -----------------------
 # Load trained objects
@@ -44,7 +45,7 @@ def preprocess_text(text):
 def index():
     prediction = None
     if request.method == "POST":
-        product_text = request.form["product_text"]
+        product_text = request.form.get("product_text", "")
 
         # Clean the text
         cleaned_text = preprocess_text(product_text)
@@ -59,7 +60,8 @@ def index():
     return render_template("index.html", prediction=prediction)
 
 # -----------------------
-# Run app
+# Run app (Railway compatible)
 # -----------------------
-if __name__ == "__main__":
-    app.run(debug=True)
+if _name_ == "_main_":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
